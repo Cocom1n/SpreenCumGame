@@ -8,6 +8,11 @@ public class TP : MonoBehaviour
     [SerializeField] private Transform destino;
     private bool puedeEntrar;
 
+    /// <summary>
+    /// Posición del último portal usado. Asustar.cs lo usa para devolver al jugador.
+    /// </summary>
+    public static Transform UltimoPortal { get; private set; }
+
     void Update()
     {
         if (puedeEntrar && Keyboard.current.eKey.wasPressedThisFrame)
@@ -37,9 +42,9 @@ public class TP : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
+            // Guardar este portal como punto de retorno
+            UltimoPortal = transform;
             player.transform.position = destino.position;
         }
     }
-
-    
 }

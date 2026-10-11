@@ -114,5 +114,12 @@ public class NpcDialogue : MonoBehaviour
             interactSprite.SetActive(active);
         }
     }
+
+    public void ResetNpc()
+    {
+        currentLine = -1;
+        waitingChoice = false;
+        itemAlreadyGiven = false;
+    }
 }
 

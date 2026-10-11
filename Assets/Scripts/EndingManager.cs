@@ -8,8 +8,6 @@ using TMPro;
 public class Ending
 {
     public string endingName;
-
-    [Header("poner los nombres exactos perro")]
     public string[] requiredItems;
     public string title;
     public Sprite image;
@@ -27,12 +25,17 @@ public class EndingManager : MonoBehaviour
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private Image endingImage;
 
+    [Header("Rejugar")]
+    [SerializeField] private Button replayButton;
+    [SerializeField] private Transform spawnPoint;
+
     [SerializeField] private PlayerInventory inventory;
 
     void Awake()
     {
         if (inventory == null) inventory = FindFirstObjectByType<PlayerInventory>();
         if (endingPanel != null) endingPanel.SetActive(false);
+        if (replayButton != null) replayButton.onClick.AddListener(Restart);
     }
 
     public void ShowEnding()
@@ -58,6 +61,30 @@ public class EndingManager : MonoBehaviour
     public void HideEnding()
     {
         if (endingPanel != null) endingPanel.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        if (inventory != null) inventory.ClearItems();
+
+        NpcDialogue[] npcs = FindObjectsByType<NpcDialogue>(FindObjectsSortMode.None);
+        foreach (NpcDialogue npc in npcs)
+        {
+            npc.ResetNpc();
+        }
+
+        if (spawnPoint != null && inventory != null)
+        {
+            inventory.transform.position = spawnPoint.position;
+        }
+
+        EndingTriger[] triggers = FindObjectsByType<EndingTriger>(FindObjectsSortMode.None);
+        foreach (EndingTriger trigger in triggers)
+        {
+            trigger.ResetTrigger();
+        }
+
+        HideEnding();
     }
 
     private Ending FindEnding()
@@ -89,3 +116,4 @@ public class EndingManager : MonoBehaviour
         return set;
     }
 }
+

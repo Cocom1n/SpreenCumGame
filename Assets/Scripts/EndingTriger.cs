@@ -10,6 +10,11 @@ public class EndingTriger : MonoBehaviour
     private bool playerInside;
     private bool endingShown;
 
+    public void ResetTrigger()
+    {
+        endingShown = false;
+    }
+
     void Awake()
     {
         if (endingManager == null) endingManager = FindFirstObjectByType<EndingManager>();
